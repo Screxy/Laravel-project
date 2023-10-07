@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [MainController::class, 'index']);
+
+Route::get('/galery/{img}', function ($img) {
+    return view('main.galery', ['img' => $img]);
+});
+
+Route::get('/home', function () {
+    return view('main.main');
+});
+
+Route::get('/contact', function () {
+    $contacts = [
+        'name' => 'Polytech',
+        'address' => 'B.Semenovskay 38',
+        'phone' => '8(495)432-3232'
+    ];
+    return view('main.contact', ['contacts' => $contacts]);
 });
