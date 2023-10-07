@@ -18,6 +18,7 @@ class ArticleSeeder extends Seeder
         $articles = json_decode(File::get(public_path() . '/articles.json'));
         foreach ($articles as $article) {
             Article::create([
+                'date' => $article->date,
                 'name' => $article->name,
                 'short_desc' => $article->shortDesc,
                 'desc' => $article->desc,

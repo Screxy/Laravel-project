@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArticleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +18,13 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', [MainController::class, 'index']);
 
+//Article
+Route::get('/', function () {
+    return redirect('/article');
+});
+
+Route::resource('article', ArticleController::class);
+
 //Auth
 Route::get('/create', [AuthController::class, 'create']);
 Route::post('/registr', [AuthController::class, 'registr']);
@@ -24,15 +33,12 @@ Route::get('/galery/{img}', function ($img) {
     return view('main.galery', ['img' => $img]);
 });
 
-Route::get('/home', function () {
-    return view('main.main');
-});
+Route::get('/home', [MainController::class, 'index']);
 
 Route::get('/contact', function () {
     $contacts = [
-        'name' => 'Polytech',
-        'address' => 'B.Semenovskay 38',
-        'phone' => '8(495)432-3232'
+        'name' => 'Vladislav Screxy 2023 ',
+        'github' => 'https://github.com/Screxy/Laravel-project'
     ];
     return view('main.contact', ['contacts' => $contacts]);
 });
