@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +15,10 @@ use App\Http\Controllers\MainController;
 */
 
 Route::get('/', [MainController::class, 'index']);
+
+//Auth
+Route::get('/create', [AuthController::class, 'create']);
+Route::post('/registr', [AuthController::class, 'registr']);
 
 Route::get('/galery/{img}', function ($img) {
     return view('main.galery', ['img' => $img]);
