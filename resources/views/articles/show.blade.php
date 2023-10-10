@@ -5,6 +5,8 @@
     <h5 class="card-title">{{$article->name}}</h5>
     <h6 class="card-subtitle mb-2 text-body-secondary">{{$article->short_desc}}</h6>
     <p class="card-text">{{$article->desc}}</p>
+    @can('create')
+      
     <div class="flex">
       <a href="/article/{{$article->id}}/edit" class="btn btn-primary">Edit Article</a>
       <form action="/article/{{$article->id}}" method="post">
@@ -13,6 +15,7 @@
         <button type="submit" class="btn btn-secondary ml-1" >Delete</button>
       </form>
     </div>      
+    @endcan
   </div>
 </div>
 <div class="card mt-2 mb-2">
@@ -52,8 +55,10 @@
     <h5 class="card-title">{{$comment->title}}</h5>
     <h6 class="card-subtitle mb-2 text-body-secondary">{{$comment->text}}</h6>
     <div class="flex">
-    <a href="/comment/edit/{{$comment->id}}" class="btn btn-primary mr-1">Edit comment</a>
-    <a href="/comment/delete/{{$comment->id}}" class="btn btn-secondary">Delete comment</a>
+      @can('comment', $comment)
+      <a href="/comment/edit/{{$comment->id}}" class="btn btn-primary mr-1">Edit comment</a>
+      <a href="/comment/delete/{{$comment->id}}" class="btn btn-secondary">Delete comment</a>
+      @endcan
 </div>
 </div>
 </div>
