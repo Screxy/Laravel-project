@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\MailJob;
+use App\Mail\ArticleMail;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Comment;
@@ -50,6 +52,7 @@ class ArticleController extends Controller
         $article->desc = $request->desc;
         $article->author_id = 1;
         $article->save();
+        MailJob::dispatch($article);
         return redirect('/article');
     }
 

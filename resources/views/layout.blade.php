@@ -37,6 +37,11 @@
             <a class="nav-link" href="/article/create">Create Article<span class="sr-only">(current)</span></a>
           </li>
           @endcan
+          @can('create')
+          <li class="nav-item">
+            <a class="nav-link" href="/comment">Comments<span class="sr-only">(current)</span></a>
+          </li>
+          @endcan
           <li class="nav-item">
             <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
           </li>
