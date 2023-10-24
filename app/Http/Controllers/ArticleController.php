@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ArticleCreateEvent;
 use App\Jobs\MailJob;
 use App\Mail\ArticleMail;
 use App\Models\Article;
@@ -54,6 +55,7 @@ class ArticleController extends Controller
         $article->author_id = 1;
         $article->save();
         MailJob::dispatch($article);
+        ArticleCreateEvent::dispatch($article);
         return redirect('/article');
     }
 
