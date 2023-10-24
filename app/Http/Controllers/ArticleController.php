@@ -27,6 +27,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
         Gate::authorize('create', [self::class]);
@@ -64,7 +65,9 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $comments = Comment::where('article_id', $article->id)->latest()->paginate(2);
+        $comments = Comment::where('article_id', $article->id)
+            ->where('accept', true)
+            ->latest()->paginate(2);
         return view('articles.show', ['article' => $article, 'comments' => $comments]);
     }
 
@@ -103,7 +106,6 @@ class ArticleController extends Controller
         $article->save();
         return redirect()->route('article.show', ['article' => $article]);
     }
-
     /**
      * Remove the specified resource from storage.
      *

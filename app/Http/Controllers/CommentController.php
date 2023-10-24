@@ -12,7 +12,21 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::latest()->paginate(10);
-        return view('comments.index', ['comments'=>$comments]);
+        return view('comments.index', ['comments' => $comments]);
+    }
+    public function accept(int $id)
+    {
+        $comment = Comment::findOrFail($id);
+        $comment->accept = true;
+        $comment->save();
+        return redirect('/comment');
+    }
+    public function reject(int $id)
+    {
+        $comment = Comment::findOrFail($id);
+        $comment->accept = false;
+        $comment->save();
+        return redirect('/comment');
     }
     public function store(Request $request)
     {
@@ -27,8 +41,8 @@ class CommentController extends Controller
         $comment->text = $request->text;
         $comment->article_id = $request->article_id;
         $comment->user()->associate(auth()->user());
-        $comment->save();
-        return redirect()->route('article.show', ['article' => $comment->article_id]);
+        $res = $comment->save();
+        return redirect()->route('article.show', ['article' => $comment->article_id, 'res'=>$res]);
     }
 
     public function edit($id)

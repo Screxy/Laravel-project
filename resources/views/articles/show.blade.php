@@ -22,6 +22,13 @@
   <div class="card-header text-center">
     <h3>Comments</h3>
   </div>
+  @isset($_GET['res'])
+  @if ($_GET['res'] == 1)
+  <div class="alert alert-success">
+    <p>Ваш комментарий успешно создан и отправлен на модерацию</p>
+  </div>  
+  @endif
+  @endisset
   <div class="card-body">
     <div class="form">
     @if ($errors->any())
