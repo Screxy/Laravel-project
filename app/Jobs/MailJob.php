@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\AdminComment;
 use App\Mail\ArticleMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -23,10 +24,18 @@ class MailJob implements ShouldQueue
      * @return void
      */
     protected $article;
+    protected $comment;
+    // public function __construct(string $comment, string $article)
+    // {
+    //     $this->article = $article;
+    //     $this->comment = $comment;
+    // }
     public function __construct(Article $article)
     {
         $this->article = $article;
+        // $this->comment = $comment;
     }
+
     /**
      * Execute the job.
      *
@@ -34,6 +43,7 @@ class MailJob implements ShouldQueue
      */
     public function handle()
     {
+        // Mail::to('vladisdvb@gmail.ru')->send(new AdminComment($this->comment, $this->article));
         Mail::to('vladisdvb@gmail.com')->send(new ArticleMail($this->article));
     }
 }
