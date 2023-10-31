@@ -54,8 +54,8 @@
               New comment <span>{{auth()->user()->unreadNotifications->count()}}</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              @foreach (auth()->user()->unreadNotifications as $notifications)
-              <a class="dropdown-item" href="{{route('article.show', ['article'=> $notifications->data['article']['id'], 'notify'=>$notifications->id])}}">For article: {{$notifications->data['article']['name']}}</a>
+              @foreach (auth()->user()->unreadNotifications as $notification)
+                <a class="dropdown-item" href="{{route('article.show', ['article'=>$notification->data['article']['id'], 'notify'=>$notification->id])}}">For article: {{$notification->data['article']['name']}}</a>
               @endforeach 
             </div>
           </li>

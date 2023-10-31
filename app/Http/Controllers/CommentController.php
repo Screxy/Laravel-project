@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Notifications\CommentNotifi;
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Article;
@@ -23,6 +25,12 @@ class CommentController extends Controller
     public function accept(int $id)
     {
         $comment = Comment::findOrFail($id);
+        $users = User::where('id', '!=', $comment->author_id)->get();
+        $article = Article::findOrFail($comment->article_id);
+        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        foreach ($caches as $cache) {
+            Cache::forget($cache->key);
+        }
         $comment->accept = true;
         $comment->save();
         return redirect('/comment');
@@ -30,6 +38,12 @@ class CommentController extends Controller
     public function reject(int $id)
     {
         $comment = Comment::findOrFail($id);
+        $users = User::where('id', '!=', $comment->author_id)->get();
+        $article = Article::findOrFail($comment->article_id);
+        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        foreach ($caches as $cache) {
+            Cache::forget($cache->key);
+        }
         $comment->accept = false;
         $comment->save();
         return redirect('/comment');
@@ -75,6 +89,12 @@ class CommentController extends Controller
         $comment->text = $request->text;
         $comment->article_id = $comment->article_id;
         $comment->save();
+        $users = User::where('id', '!=', $comment->author_id)->get();
+        $article = Article::findOrFail($comment->article_id);
+        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        foreach ($caches as $cache) {
+            Cache::forget($cache->key);
+        }
         return redirect()->route('article.show', ['article' => $comment->article_id]);
     }
 
@@ -83,6 +103,12 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         Gate::authorize('comment', $comment);
         $comment->delete();
+        $users = User::where('id', '!=', $comment->author_id)->get();
+        $article = Article::findOrFail($comment->article_id);
+        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        foreach ($caches as $cache) {
+            Cache::forget($cache->key);
+        }
         return redirect()->route('article.show', ['article' => $comment->article_id]);
     }
 }
