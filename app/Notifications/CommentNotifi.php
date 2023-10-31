@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Comment;
+use App\Models\Article;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -17,10 +17,10 @@ class CommentNotifi extends Notification
      *
      * @return void
      */
-    protected $comment;
-    public function __construct(Comment $comment)
+    protected $article;
+    public function __construct(Article $article)
     {
-        $this->comment = $comment;
+        $this->article = $article;
     }
 
     /**
@@ -47,7 +47,7 @@ class CommentNotifi extends Notification
         //             ->action('Notification Action', url('/'))
         //             ->line('Thank you for using our application!');
         return [
-            'comment' => $this->comment->title,
+            'article' => $this->article,
         ];
     }
 
