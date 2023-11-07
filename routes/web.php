@@ -23,8 +23,8 @@ Route::get('/', [MainController::class, 'index']);
 Route::get('/', function () {
     return redirect('/article');
 });
-
 Route::resource('article', ArticleController::class)->middleware('auth:sanctum');
+Route::get('article/{article}', [ArticleController::class,'show'])->middleware('auth:sanctum', 'stat')->name('article.show');
 
 //Comments
 Route::group(['prefix' => '/comment', 'middleware'=>'auth:sanctum'], function () {
