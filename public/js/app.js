@@ -19486,7 +19486,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-    window.Echo.channel('my-chanel').listen('ArticleCreateEvent', function (name) {
+    window.Echo.channel('my-channel').listen('ArticleCreateEvent', function (name) {
       console.log(name);
       _this.msg = name.name;
       // alert('Добавлена новая статья!');
