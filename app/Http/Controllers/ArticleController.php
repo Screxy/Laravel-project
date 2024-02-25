@@ -49,7 +49,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'articleAll[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }
@@ -96,7 +96,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Article $article)
-    { 
+    {
         Gate::authorize('create', [self::class]);
         return view('articles.edit', ['article' => $article]);
     }
