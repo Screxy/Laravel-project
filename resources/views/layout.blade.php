@@ -56,18 +56,18 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               @foreach (auth()->user()->unreadNotifications as $notification)
                 <a class="dropdown-item" href="{{route('article.show', ['article'=>$notification->data['article']['id'], 'notify'=>$notification->id])}}">For article: {{$notification->data['article']['name']}}</a>
-              @endforeach 
+              @endforeach
             </div>
           </li>
           @endauth
         </ul>
         <div class="form-inline my-2 my-lg-0">
           @guest
-          <a href="/create"class="btn btn-outline-success mr-3  my-2 my-sm-0">Sign Up</a>
-          <a href="/login"class="btn btn-outline-success  mr-3 my-2 my-sm-0">Sign In</a>
+          <a href="/create" class="btn btn-outline-success mr-3  my-2 my-sm-0">Sign Up</a>
+          <a href="/login" class="btn btn-outline-success  mr-3 my-2 my-sm-0">Sign In</a>
           @endguest
           @auth
-          <a href="/logout"class="btn btn-outline-success mr-3  my-2 my-sm-0">Sign out</a>
+          <a href="/logout" class="btn btn-outline-success mr-3  my-2 my-sm-0">Sign out</a>
           @endauth
         </div>
       </div>
@@ -84,7 +84,7 @@
     <footer>
 
     </footer>
-      
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
      <script src="{{ mix('js/app.js') }}"></script>

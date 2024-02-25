@@ -30,7 +30,7 @@ class ArticleMail extends Mailable
      */
     public function build()
     {
-        return $this->from('vladisdvb@gmail.com')->
+        return $this->from('postmaster@sandbox2e470e7155ba4eebb05be8969d3a731f.mailgun.org')->
                 view('mail.article', ['article'=> $this->article]);
     }
 }
