@@ -33,7 +33,7 @@ class AdminComment extends Mailable
      */
     public function build()
     {
-        return $this->from('postmaster@sandbox2e470e7155ba4eebb05be8969d3a731f.mailgun.org')->
+        return $this->from('dvbvladis@mail.ru')->
             view('mail.comment', ['article' => $this->article, 'comment'=>$this->comment]);
     }
 }
