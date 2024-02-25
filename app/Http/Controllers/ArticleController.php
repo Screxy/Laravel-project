@@ -110,7 +110,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'articleAll[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }
@@ -136,7 +136,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'articleAll[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }

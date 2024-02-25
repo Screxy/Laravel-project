@@ -27,7 +27,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $users = User::where('id', '!=', $comment->author_id)->get();
         $article = Article::findOrFail($comment->article_id);
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }
@@ -40,7 +40,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $users = User::where('id', '!=', $comment->author_id)->get();
         $article = Article::findOrFail($comment->article_id);
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }
@@ -89,7 +89,7 @@ class CommentController extends Controller
         $comment->text = $request->text;
         $comment->article_id = $comment->article_id;
         $comment->save();
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }
@@ -101,7 +101,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         Gate::authorize('comment', $comment);
         $comment->delete();
-        $caches = DB::table('cache')->whereRaw('`key` GLOB :key', ['key' => 'article/*[0-9]:[0-9]'])->get();
+        $caches = DB::table('cache')->get();
         foreach ($caches as $cache) {
             Cache::forget($cache->key);
         }
