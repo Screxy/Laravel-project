@@ -32,7 +32,15 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
-
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - ./redis:/root/redis
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=${REDIS_PORT}
 
   adminer:
     image: adminer

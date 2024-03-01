@@ -22,34 +22,33 @@ class CommentController extends Controller
         $comments = Comment::latest()->paginate(10);
         return view('comments.index', ['comments' => $comments]);
     }
+
     public function accept(int $id)
     {
         $comment = Comment::findOrFail($id);
         $users = User::where('id', '!=', $comment->author_id)->get();
         $article = Article::findOrFail($comment->article_id);
-        $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         $comment->accept = true;
         $comment->save();
         return redirect('/comment');
     }
+
     public function reject(int $id)
     {
         $comment = Comment::findOrFail($id);
         $users = User::where('id', '!=', $comment->author_id)->get();
         $article = Article::findOrFail($comment->article_id);
         $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         $comment->accept = false;
         $comment->save();
         return redirect('/comment');
     }
+
     public function store(Request $request)
     {
+        Cache::flush();
         $request->validate([
             'title' => 'required',
             'text' => 'required',
@@ -89,10 +88,7 @@ class CommentController extends Controller
         $comment->text = $request->text;
         $comment->article_id = $comment->article_id;
         $comment->save();
-        $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         return redirect()->route('article.show', ['article' => $comment->article_id]);
     }
 
@@ -101,10 +97,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         Gate::authorize('comment', $comment);
         $comment->delete();
-        $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         return redirect()->route('article.show', ['article' => $comment->article_id]);
     }
 }

@@ -22,7 +22,7 @@ class ArticleController extends Controller
     public function index()
     {
         $currentPage = request('page') ? request('page') : 1;
-        $articles = Cache::remember('articleAll' . $currentPage, 3000, function () {
+        $articles = Cache::remember('articleAll:' . $currentPage, 3000, function () {
             return Article::latest()->paginate(5);
         });
 
@@ -49,10 +49,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         $request->validate([
             'title' => 'required',
             'shortDesc' => 'required|min:5'
@@ -110,10 +107,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         Gate::authorize('create', [self::class]);
         $request->validate([
             'title' => 'required',
@@ -136,10 +130,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $caches = DB::table('cache')->get();
-        foreach ($caches as $cache) {
-            Cache::forget($cache->key);
-        }
+        Cache::flush();
         Gate::authorize('create', [self::class]);
         Comment::where('article_id', $article->id)->delete();
         $article->delete();
