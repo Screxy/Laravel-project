@@ -10,7 +10,6 @@ use Hash;
 
 class AuthController extends Controller
 {
-
     public function registr(Request $request)
     {
         $request->validate([
@@ -32,30 +31,25 @@ class AuthController extends Controller
         return response()->json($response, 201);
     }
 
-
-    public function customLogin(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json('Bad login', 401);
+        if (Auth::attempt($credentials)) {
+            $token = auth()->user()->createToken('myAppToken');
+            return response($token, 201);
         }
-        $user = User::where('email', $request->email)->first();
-        $token = $user->createToken('myAppToken')->plainTextToken;
-        $response = [
-            'user' => $user,
-            'token' => $token,
-        ];
-        return response()->json($response, 201);
+        return response('Bad login', 401);
     }
+
     public function logOut(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return response()->json(['Message'=>'Logout success'],201);
+        return response()->json(['Message' => 'Logout success'], 201);
     }
 }
